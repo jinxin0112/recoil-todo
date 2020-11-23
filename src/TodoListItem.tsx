@@ -24,13 +24,10 @@ function TodoListItem(props: TodoItem) {
   const [todoList, setTodoList] = useRecoilState(todoListState);
   const index = todoList.findIndex(({ id: itemId }) => itemId === id);
 
-  /* eidt */
-
-  // 是否处于编辑状态
+  /* ============== 1. 编辑 task 内容 ============== */
+  // * a. 是否处于编辑模式
   const [isEdit, setIsEdit] = useState(false);
-  const [inputValue, setInputValue] = useState(task);
   const inputRef = useRef<HTMLInputElement>();
-
   // 当切换到编辑状态时默认 focus
   useEffect(() => {
     if (isEdit) {
@@ -38,14 +35,18 @@ function TodoListItem(props: TodoItem) {
     }
   }, [isEdit]);
 
+  // * b. 处于编辑模式时 input 的状态
+  const [inputValue, setInputValue] = useState(task);
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
 
+  // * c. 点击切换到编辑模式
   const handleToggleEditMode = () => {
     setIsEdit(true);
   };
 
+  // * d. input 失去焦点提交
   const handleEdit = () => {
     const nextTodoList = replaceItemAtIndex(todoList, index, {
       ...props,
@@ -56,6 +57,7 @@ function TodoListItem(props: TodoItem) {
     setIsEdit(false);
   };
 
+  /* ============= 2. 切换 task 是否完成 ============= */
   const handleToggleComplete = () => {
     const nextTodoList = replaceItemAtIndex(todoList, index, {
       ...props,
@@ -64,6 +66,7 @@ function TodoListItem(props: TodoItem) {
     setTodoList(nextTodoList);
   };
 
+  /* ================ 3. 移除 task ================ */
   const handleRemoveItem = () => {
     const nextTodoList = removeItemAtIndex(todoList, index);
     setTodoList(nextTodoList);

@@ -1,7 +1,7 @@
-import * as React from "react";
-import { useSetRecoilState } from "recoil";
+import * as React from 'react';
+import { useSetRecoilState } from 'recoil';
 
-import { todoListState } from "./model/state";
+import { todoListState } from './model/state';
 
 const { memo, useState } = React;
 
@@ -11,23 +11,24 @@ function createUid() {
 }
 
 function TodoItemCreator() {
-  const [inputValue, setInputValue] = useState("");
-  const setTodoListState = useSetRecoilState(todoListState);
+  // * input 的状态
+  const [inputValue, setInputValue] = useState('');
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value);
+  };
 
+  // * 新增一个 task
+  const setTodoListState = useSetRecoilState(todoListState);
   const handleAddItem = () => {
     setTodoListState((preList) => [
       {
         id: createUid(),
         task: inputValue,
-        isComplete: false
+        isComplete: false,
       },
-      ...preList
+      ...preList,
     ]);
-    setInputValue("");
-  };
-
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(event.target.value);
+    setInputValue('');
   };
 
   return (

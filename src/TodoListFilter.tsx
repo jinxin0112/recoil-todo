@@ -9,14 +9,17 @@ const { memo } = React;
 function TodoListFilter() {
   const setFilter = useSetRecoilState(todoListFilterState);
 
+  // * 展示全部
   const handleShowAll = () => {
     setFilter(TodoListFilterStatus.All);
   };
 
+  // * 展示已完成
   const handleShowCom = () => {
     setFilter(TodoListFilterStatus.Complete);
   };
 
+  // * 展示未完成
   const handleShowUnCom = () => {
     setFilter(TodoListFilterStatus.UnComplete);
   };
